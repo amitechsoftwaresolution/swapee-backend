@@ -1,0 +1,26 @@
+server:
+  port: ${STUDENT_SERVICE_PORT:8088}
+
+spring:
+  datasource:
+    url: ${STUDENT_SERVICE_DB_URL:jdbc:mysql://localhost:3310/student-db}
+    username: ${STUDENT_SERVICE_DB_USERNAME:root}
+    password: ${STUDENT_SERVICE_DB_PASSWORD:root}
+    maximumPoolSize: ${STUDENT_SERVICE_DB_MAX_POOL:5}
+  jpa:
+    database-platform: ${STUDENT_SERVICE_DB_PLATFORM:org.hibernate.dialect.MySQL8Dialect}
+    hibernate:
+      ddl-auto: ${STUDENT_SERVICE_DB_DDL_AUTO:update} # change to update
+    show-sql: ${STUDENT_SERVICE_DB_SHOW_SQL:false}
+    properties:
+      hibernate:
+        generate_statistics: ${STUDENT_SERVICE_DB_STAT:false}
+
+
+
+
+
+
+
+
+
