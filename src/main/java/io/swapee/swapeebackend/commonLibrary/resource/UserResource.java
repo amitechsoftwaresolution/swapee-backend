@@ -2,6 +2,8 @@ package io.swapee.swapeebackend.commonLibrary.resource;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 
 /**
  * @author Minoltan Issack on 01/03/2023
@@ -13,5 +15,12 @@ import lombok.*;
 @ToString
 public class UserResource {
     private String name;
-    private String job;
+    private String email;
+    private String role;
+    private String type;
+    private String msisdn;
+    private String profileImage;
+    private String uuid;
+    private LocalDateTime createdAt;
+    private Boolean status;
 }

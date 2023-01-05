@@ -2,6 +2,7 @@ package io.swapee.swapeebackend.commonLibrary.controller;
 
 import io.swapee.swapeebackend.commonLibrary.reponse.Response;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
@@ -26,6 +27,10 @@ public abstract class AbstractController {
 
     public ResponseEntity<Object> sendSuccessResponse(Object object) {
         return ResponseEntity.ok().body(new Response(object, codeStatusMap.get(200)));
+    }
+
+    public ResponseEntity<Object> sendCreatedResponse() {
+        return new ResponseEntity<>(new Response(codeStatusMap.get(201)), HttpStatus.CREATED);
     }
 
 

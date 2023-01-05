@@ -1,4 +1,4 @@
-package io.swapee.swapeebackend.common;
+package io.swapee.swapeebackend.commonLibrary.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

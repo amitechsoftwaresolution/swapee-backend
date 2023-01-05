@@ -12,7 +12,7 @@
 	<artifactId>swapee-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>swapee-backend</name>
-	<description>Swappe Spring Boot Project</description>
+	<description>Swapee Spring Boot Project</description>
 	<properties>
 		<java.version>11</java.version>
 		<spring-cloud.version>2021.0.3</spring-cloud.version>
@@ -36,6 +36,13 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<!-- enable test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- Implement Aspect-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -47,16 +54,13 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+
 
 		<!-- Like rest template -->
 		<dependency>

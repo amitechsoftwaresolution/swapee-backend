@@ -26,7 +26,7 @@ public class LoggingAspect {
     @Autowired
     HttpServletRequest request;
 
-    @Pointcut("execution(* io.swapee.swapeebackend.adapter.*.*(..))")
+    @Pointcut("execution(* io.swapee.swapeebackend.adapter.inbound.*.*(..))")
     public void loggingPointCut(){}
 
   /*  @Before("loggingPointCut()")
