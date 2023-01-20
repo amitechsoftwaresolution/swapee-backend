@@ -1,8 +1,9 @@
-package io.swapee.swapeebackend.service;
+package io.swapee.swapeebackend.service.unitTest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swapee.swapeebackend.commonLibrary.exception.NotFoundException;
 import io.swapee.swapeebackend.repository.UserRepository;
+import io.swapee.swapeebackend.service.UserManagementService;
 import io.swapee.swapeebackend.serviceImpl.UserManagementServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author Minoltan Issack on 1/5/2023
  */
 @ExtendWith(MockitoExtension.class)
-public class UserManagementServiceTest {
+public class UserManagementServiceUnitTest {
 
     // https://www.baeldung.com/mockito-junit-5-extension
 

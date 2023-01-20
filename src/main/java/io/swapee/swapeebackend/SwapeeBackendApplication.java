@@ -11,6 +11,13 @@ public class SwapeeBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SwapeeBackendApplication.class, args);
 
+		// TODO integrate with pipeline
+		// TODO integrate with sonar cube
+		// TODO implement integration test
+		// TODO connect with firebase client for authentication module
+		// TODO implement transaction feature
+		// TODO implement function interface, class::method
+
 	}
 
 }
