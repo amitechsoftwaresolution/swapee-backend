@@ -1,6 +1,6 @@
-package io.swapee.swapeebackend.commonLibrary.controller;
+package io.swapee.swapeebackend.common_library.controller;
 
-import io.swapee.swapeebackend.commonLibrary.reponse.Response;
+import io.swapee.swapeebackend.common_library.reponse.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 public abstract class AbstractController {
     HashMap<Integer, String> codeStatusMap = new HashMap<>();
 
-    public AbstractController() {
+    protected AbstractController() {
         codeStatusMap.put(200, "OK");
         codeStatusMap.put(201, "Created");
         codeStatusMap.put(204, "No Content");

@@ -1,9 +1,12 @@
-package io.swapee.swapeebackend.commonLibrary.conf;
+package io.swapee.swapeebackend.common_library.configuration;
 
 /**
  * @author Minoltan Issack on 5/14/2022
  */
 public class Parameter {
+
+    private Parameter() {
+    }
 
     /////////////////////////////////////////////////////////////////////////
     //              AUTHENTICATION SEVER CONFIG

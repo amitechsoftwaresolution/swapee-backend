@@ -1,8 +1,8 @@
 package io.swapee.swapeebackend.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swapee.swapeebackend.commonLibrary.exception.*;
-import io.swapee.swapeebackend.commonLibrary.reponse.Response;
+import io.swapee.swapeebackend.common_library.exception.*;
+import io.swapee.swapeebackend.common_library.reponse.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,6 +14,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @author Minoltan Issack on 5/14/2022
@@ -132,12 +133,10 @@ public class ExceptionHandlerControllerAdvice {
     public @ResponseBody
     Response handleException(final HttpClientErrorException exception,
                              final HttpServletRequest request) throws IOException, BadRequestException {
-        String message = exception.getMessage();
         Response oldException = new ObjectMapper().readValue(exception.getResponseBodyAsString(), Response.class);
-        message = oldException.getErrorMessage();
         Response response = new Response();
         response.setSuccess(false);
-        response.setErrorMessage(message);
+        response.setErrorMessage(oldException.getErrorMessage());
         response.setRequestedURI(request.getRequestURI());
         response.setStatusInfo(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
         return response;
@@ -150,7 +149,7 @@ public class ExceptionHandlerControllerAdvice {
                                                              final HttpServletRequest request) {
         Response response = new Response();
         response.setSuccess(false);
-        response.setErrorMessage(exception.getBindingResult().getFieldError().getDefaultMessage());
+        response.setErrorMessage(Objects.requireNonNull(exception.getBindingResult().getFieldError()).getDefaultMessage());
         response.setRequestedURI(request.getRequestURI());
         response.setStatusInfo(HttpStatus.BAD_REQUEST.getReasonPhrase());
         return response;

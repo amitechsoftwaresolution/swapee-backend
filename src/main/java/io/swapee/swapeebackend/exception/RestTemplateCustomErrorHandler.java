@@ -2,10 +2,8 @@ package io.swapee.swapeebackend.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.swapee.swapeebackend.commonLibrary.exception.*;
-import io.swapee.swapeebackend.commonLibrary.reponse.Response;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import io.swapee.swapeebackend.common_library.exception.*;
+import io.swapee.swapeebackend.common_library.reponse.Response;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
@@ -16,7 +14,6 @@ import java.io.IOException;
  */
 public class RestTemplateCustomErrorHandler extends DefaultResponseErrorHandler {
 
-    private static final Log logger = LogFactory.getLog(RestTemplateCustomErrorHandler.class);
 
     @Override
     public void handleError(ClientHttpResponse clienthttpresponse) throws IOException, BadRequestException,

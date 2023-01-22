@@ -1,7 +1,7 @@
 package io.swapee.swapeebackend.proxy;
 
 
-import io.swapee.swapeebackend.model.User;
+import io.swapee.swapeebackend.common_library.resource.UserResource;
 import io.swapee.swapeebackend.model.UserResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -23,10 +23,10 @@ public class UserWebClientProxyReactive {
         this.webClient = webClient;
     }
 
-    public Mono<UserResponse> createInternalUserReactive(User user) {
+    public Mono<UserResponse> createInternalUserReactive(UserResource user) {
              return webClient.post()
                     .uri(url + "/api/users")
-                    .body(Mono.just(user), User.class)
+                    .body(Mono.just(user), UserResource.class)
                     .retrieve()
                     .bodyToMono(UserResponse.class);
     }

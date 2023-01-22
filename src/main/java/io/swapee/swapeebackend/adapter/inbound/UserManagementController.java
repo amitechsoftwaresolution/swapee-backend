@@ -2,10 +2,10 @@ package io.swapee.swapeebackend.adapter.inbound;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swapee.swapeebackend.aspect.ToLog;
-import io.swapee.swapeebackend.commonLibrary.controller.AbstractController;
+import io.swapee.swapeebackend.common_library.controller.AbstractController;
 import io.swapee.swapeebackend.model.User;
 import io.swapee.swapeebackend.service.UserManagementService;
-import io.swapee.swapeebackend.serviceImpl.UserManagementServiceImpl;
+import io.swapee.swapeebackend.service_impl.UserManagementServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

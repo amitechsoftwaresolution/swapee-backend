@@ -1,4 +1,4 @@
-package io.swapee.swapeebackend.commonLibrary.exception;
+package io.swapee.swapeebackend.common_library.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -7,17 +7,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author Minoltan Issack on 5/14/2022
  */
 @ResponseStatus(value= HttpStatus.INTERNAL_SERVER_ERROR)
-public class MixPanelException extends RuntimeException {
+public class PortalException extends RuntimeException {
 
-    public MixPanelException(String message) {
+    public PortalException(String message) {
         super(message);
     }
 
-    public MixPanelException(Exception exception) {
+    public PortalException(Exception exception) {
         super(exception);
     }
 
-    public MixPanelException(String message, Exception e) {
+    public PortalException(String message, Exception e) {
         super(message, e);
     }
 }

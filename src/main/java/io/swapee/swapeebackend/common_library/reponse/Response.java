@@ -1,4 +1,4 @@
-package io.swapee.swapeebackend.commonLibrary.reponse;
+package io.swapee.swapeebackend.common_library.reponse;
 
 import lombok.Getter;
 import lombok.Setter;

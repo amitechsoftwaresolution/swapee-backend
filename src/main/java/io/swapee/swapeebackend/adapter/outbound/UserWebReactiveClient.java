@@ -1,6 +1,6 @@
 package io.swapee.swapeebackend.adapter.outbound;
 
-import io.swapee.swapeebackend.model.User;
+import io.swapee.swapeebackend.common_library.resource.UserResource;
 import io.swapee.swapeebackend.model.UserResponse;
 import io.swapee.swapeebackend.proxy.UserWebClientProxyReactive;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +23,7 @@ public class UserWebReactiveClient {
     }
 
     @PostMapping()
-    public Mono<UserResponse> createInternalUserReactive(@RequestBody User user) {
+    public Mono<UserResponse> createInternalUserReactive(@RequestBody UserResource user) {
         return userWebClientProxyReactive.createInternalUserReactive(user);
     }
 }

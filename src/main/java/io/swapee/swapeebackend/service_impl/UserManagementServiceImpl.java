@@ -1,11 +1,11 @@
-package io.swapee.swapeebackend.serviceImpl;
+package io.swapee.swapeebackend.service_impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import io.swapee.swapeebackend.commonLibrary.exception.NotFoundException;
-import io.swapee.swapeebackend.commonLibrary.resource.UserResource;
+import io.swapee.swapeebackend.common_library.exception.NotFoundException;
+import io.swapee.swapeebackend.common_library.resource.UserResource;
 import io.swapee.swapeebackend.model.StaffDetails;
 import io.swapee.swapeebackend.model.User;
 import io.swapee.swapeebackend.model.VendorDetails;

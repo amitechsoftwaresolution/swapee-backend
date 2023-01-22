@@ -1,7 +1,5 @@
 package io.swapee.swapeebackend.aspect;
 
-import io.swapee.swapeebackend.model.User;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -12,7 +12,6 @@ public class SwapeeBackendApplication {
 		SpringApplication.run(SwapeeBackendApplication.class, args);
 
 		// TODO integrate with pipeline
-		// TODO integrate with sonar cube
 		// TODO implement integration test
 		// TODO connect with firebase client for authentication module
 		// TODO implement transaction feature

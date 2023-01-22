@@ -1,7 +1,7 @@
 package io.swapee.swapeebackend.proxy;
 
+import io.swapee.swapeebackend.common_library.resource.UserResource;
 import io.swapee.swapeebackend.config.ProjectConfig;
-import io.swapee.swapeebackend.model.User;
 import io.swapee.swapeebackend.model.UserResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,5 +18,5 @@ public interface UserFeignClientProxy {
     // Logging aspect does not intercept feign client, so we used to feign logging set in the app properties,
     // and this logging is only works in debug level
     @PostMapping("/api/users")
-    UserResponse createInternalUser(@RequestBody User user);
+    UserResponse createInternalUser(@RequestBody UserResource user);
 }

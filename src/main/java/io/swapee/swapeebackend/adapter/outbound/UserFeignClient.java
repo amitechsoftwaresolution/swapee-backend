@@ -1,7 +1,7 @@
 package io.swapee.swapeebackend.adapter.outbound;
 
 
-import io.swapee.swapeebackend.model.User;
+import io.swapee.swapeebackend.common_library.resource.UserResource;
 import io.swapee.swapeebackend.model.UserResponse;
 import io.swapee.swapeebackend.proxy.UserFeignClientProxy;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +24,7 @@ public class UserFeignClient {
     }
 
     @PostMapping()
-    public UserResponse createUser(@RequestBody User user) {
+    public UserResponse createUser(@RequestBody UserResource user) {
         return userFeignClientProxy.createInternalUser(user);
     }
 }

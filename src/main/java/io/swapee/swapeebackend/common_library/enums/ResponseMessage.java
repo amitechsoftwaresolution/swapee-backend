@@ -1,4 +1,4 @@
-package io.swapee.swapeebackend.commonLibrary.enums;
+package io.swapee.swapeebackend.common_library.enums;
 
 /**
  * @author Minoltan Issack on 5/14/2022

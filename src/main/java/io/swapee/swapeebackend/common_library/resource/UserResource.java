@@ -1,4 +1,4 @@
-package io.swapee.swapeebackend.commonLibrary.resource;
+package io.swapee.swapeebackend.common_library.resource;
 
 import lombok.*;
 
