@@ -2,6 +2,12 @@ server:
   port: ${SWAPEE_SERVICE_PORT:8088}
 
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://api.staging.imigames.io/auth/realms/Dialog-MegaRun-2/protocol/openid-connect/certs
+
   datasource:
     url: ${SWAPEE_SERVICE_DB_URL:jdbc:mysql://localhost:3310/swapee-db}
     username: ${SWAPEE_SERVICE_DB_USERNAME:root}
@@ -15,11 +21,6 @@ spring:
     properties:
       hibernate:
         generate_statistics: ${SWAPEE_SERVICE_DB_STAT:false}
-
-
-
-
-
 
 
 

@@ -22,6 +22,9 @@ class UserManagementServiceUnitTest {
 
     // https://www.baeldung.com/mockito-junit-5-extension
 
+    private String webPlatform = "web";
+    private String dashboardPlatform = "dashboard";
+
     @Mock
     UserRepository userRepository;
 
@@ -29,27 +32,33 @@ class UserManagementServiceUnitTest {
     UserManagementService userManagementService = new UserManagementServiceImpl(userRepository);
 
     @Test
-    @DisplayName("register normal user happy path")
-    void registerUserNormalSuccessTest() throws JsonProcessingException {
-        userManagementService.registerUser("NORMAL", prepareCommonObject());
+    @DisplayName("register viewer user happy path with web platform")
+    void registerUserViewerSuccessTest() throws JsonProcessingException {
+        userManagementService.registerUser("VIEWER", prepareCommonObject(),webPlatform);
+    }
+
+    @Test
+    @DisplayName("register viewer user happy path with web platform")
+    void registerUserViewerWithDashboardSuccessTest() throws JsonProcessingException {
+        userManagementService.registerUser("VIEWER", prepareCommonObject(),dashboardPlatform);
     }
 
     @Test
     @DisplayName("register vendor user happy path")
     void registerUserVendorSuccessTest() throws JsonProcessingException {
-        userManagementService.registerUser("VENDOR", prepareCommonObject());
+        userManagementService.registerUser("VENDOR", prepareCommonObject(),"");
     }
 
     @Test
     @DisplayName("register staff user happy path")
     void registerUserStaffSuccessTest() throws JsonProcessingException {
-        userManagementService.registerUser("STAFF", prepareCommonObject());
+        userManagementService.registerUser("STAFF", prepareCommonObject(),dashboardPlatform);
     }
 
     @Test
     @DisplayName("register user wrong type test")
     void registerUserWrongTypeFailTest() throws JsonProcessingException {
-        assertThrows(NotFoundException.class, ()-> userManagementService.registerUser("wrong", prepareCommonObject()));
+        assertThrows(NotFoundException.class, ()-> userManagementService.registerUser("wrong", prepareCommonObject(), ""));
     }
 
     private Object prepareCommonObject(){

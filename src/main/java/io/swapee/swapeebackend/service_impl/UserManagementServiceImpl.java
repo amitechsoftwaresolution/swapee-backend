@@ -13,7 +13,6 @@ import io.swapee.swapeebackend.repository.UserRepository;
 import io.swapee.swapeebackend.service.UserManagementService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -29,7 +28,7 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     private final UserRepository userRepository;
 
-    private static final String NORMAL = "NORMAL";
+    private static final String VIEWER = "VIEWER";
     private static final String VENDOR = "VENDOR";
     private static final String STAFF = "STAFF";
 
@@ -40,18 +39,18 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     @Override
-    public void registerUser(String type, Object object) throws JsonProcessingException {
+    public void registerUser(String type, Object object, String platform) throws JsonProcessingException {
         UserResource userResource;
 
         userResource = objectMapper.convertValue(object,UserResource.class);
         switch (type.toUpperCase()){
-            case NORMAL:
+            case VIEWER:
                 saveUser(userResource);
                 break;
             case VENDOR:
                 VendorDetails vendorDetails;
                 vendorDetails = objectMapper.convertValue(object,VendorDetails.class);
-                createVendorDetails(vendorDetails);
+                createVendorDetails(vendorDetails,platform);
                 saveUser(userResource);
                 break;
             case STAFF:
@@ -64,11 +63,29 @@ public class UserManagementServiceImpl implements UserManagementService {
         }
     }
 
+    @Override
+    public List<UserResource> getAllUsers(){
+        List<User> userList = userRepository.findAll();
+        return userList.stream().map(user -> new UserResource()).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserResource getUserById(){
+        User user = userRepository.findById(1L).orElseThrow(() -> new NotFoundException("User Not Found!"));
+        return new UserResource();
+    }
+
+    @Override
+    public void deleteUser(String uuid){
+        logger.info("Comes to delete method: "+ uuid);
+    }
+
     public void createStaffDetails(StaffDetails staffDetails){
         // TODO create table and save
     }
 
-    public void createVendorDetails(VendorDetails vendorDetails){
+    public void createVendorDetails(VendorDetails vendorDetails, String platform){
+        // TODO get platform from dashboard or web
         // TODO create table and save
     }
 
@@ -77,30 +94,6 @@ public class UserManagementServiceImpl implements UserManagementService {
         // TODO create user table and save
     }
 
-    public List<User> test(String name){
-        logger.info("coming to user management service");
-        User user = new User();
-        user.setName(name);
-        List<User> userList = new ArrayList<>();
-        userList.add(user);
-        return userList;
-    }
-
-
-
-    public List<UserResource> getAllUsers(){
-       List<User> userList = userRepository.findAll();
-       return userList.stream().map(user -> new UserResource()).collect(Collectors.toList());
-    }
-
-    public UserResource getUserById(){
-        User user = userRepository.findById(1L).orElseThrow(() -> new NotFoundException("User Not Found!"));
-        return new UserResource();
-    }
-
-    public void deleteUser(String uuid){
-       logger.info("Comes to delete method: "+ uuid);
-    }
 
 
 }

@@ -3,14 +3,14 @@ package io.swapee.swapeebackend.adapter.inbound;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swapee.swapeebackend.aspect.ToLog;
 import io.swapee.swapeebackend.common_library.controller.AbstractController;
-import io.swapee.swapeebackend.model.User;
 import io.swapee.swapeebackend.service.UserManagementService;
 import io.swapee.swapeebackend.service_impl.UserManagementServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.annotation.security.RolesAllowed;
+
 
 /**
  * @author Minoltan Issack on 8/14/2022
@@ -30,33 +30,26 @@ public class UserManagementController extends AbstractController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<Object> registerUser(@RequestHeader String type, @RequestBody Object object) throws JsonProcessingException {
-        userManagementService.registerUser(type,object);
+    public ResponseEntity<Object> registerUser(@RequestHeader(defaultValue = "web") String platform, @RequestHeader String type, @RequestBody Object object) throws JsonProcessingException {
+        userManagementService.registerUser(type,object,platform);
         return sendCreatedResponse();
     }
 
 
-
-
-    @PostMapping("/{name}")
-    public List<User> save(@PathVariable String name){
-        return userManagementServiceImpl.test(name);
-    }
-
-
     @GetMapping
+    @RolesAllowed("mr2-dialog-admin-user")
     public ResponseEntity<Object> getAllUsers(){
-        return sendSuccessResponse(userManagementServiceImpl.getAllUsers());
+        return sendSuccessResponse(userManagementService.getAllUsers());
     }
 
     @GetMapping("/{uuid}")
     public ResponseEntity<Object> getUserByUUID(@PathVariable String uuid){
-        return sendSuccessResponse(userManagementServiceImpl.getUserById());
+        return sendSuccessResponse(userManagementService.getUserById());
     }
 
     @DeleteMapping("/{uuid}")
     @ToLog
     public void delete(@PathVariable() String uuid){
-        userManagementServiceImpl.deleteUser(uuid);
+        userManagementService.deleteUser(uuid);
     }
 }
