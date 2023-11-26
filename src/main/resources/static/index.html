@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login Page</title>
+</head>
+
+<body>
+    <h1>Login</h1>
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email" required><br><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br><br>
+    <button id="loginButton">Login</button>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            // apiKey: "AIzaSyBLVAS8ZiIvx6zKhPePhrG8nCC8iEdj6ak",
+            // authDomain: "fir-auth-b309d.firebaseapp.com",
+            // projectId: "fir-auth-b309d",
+            // storageBucket: "fir-auth-b309d.appspot.com",
+            // messagingSenderId: "304075840241",
+            // appId: "1:304075840241:web:02f36f8d5dddf603cc6750"
+            apiKey: "AIzaSyAPJpQMWutHyqf0OUdnikxUVxegTHPC74o",
+            authDomain: "swapee-webapp-dev.firebaseapp.com",
+            projectId: "swapee-webapp-dev",
+            storageBucket: "swapee-webapp-dev.appspot.com",
+            messagingSenderId: "156541551430",
+            appId: "1:156541551430:web:332170850a60dd2a39db47",
+            measurementId: "G-6029N0VXJE"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        // Function to handle login
+        async function getIdToken() {
+            try {
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                // Retrieve the ID token
+                const idToken = await userCredential.user.getIdToken();
+                console.log('ID Token:', idToken);
+                return idToken;
+            } catch (error) {
+                console.error('Error:', error.message);
+                return null;
+            }
+        }
+        async function login() {
+            const idToken = await getIdToken();
+            console.log(idToken);
+
+            if (idToken) {
+                const loginRequest = {
+                    idToken: idToken
+                };
+
+                try {
+                    const response = await fetch('http://localhost:8088/api/v1/user/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            idToken: idToken
+                        })
+                    });
+
+                    if (response.ok) {
+                        fetch('http://localhost:8088/api/vendor', {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': idToken
+                            }
+                        })
+                            .then(response => {
+                                if (response.ok) {
+                                    return response.text();
+                                } else {
+                                    throw new Error('Network response was not ok');
+                                }
+                            })
+                            .then(data => {
+                                alert(data);
+                            })
+                            .catch(error => {
+                                alert('Error: ' + error.message);
+                            });
+
+
+
+                    } else {
+                        const errorResponse = await response.json();
+                        alert('Login failed: ' + errorResponse);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred during login.');
+                }
+            }
+        }
+
+        // Add event listener to the button
+        const loginButton = document.getElementById('loginButton');
+        loginButton.addEventListener('click', login);
+    </script>
+</body>
+
+</html>

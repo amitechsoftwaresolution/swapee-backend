@@ -23,4 +23,6 @@ public class UserResource {
     private String uuid;
     private LocalDateTime createdAt;
     private Boolean status;
+    private String password;
+    private String idToken;
 }

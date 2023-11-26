@@ -1,6 +1,7 @@
 package io.swapee.swapeebackend.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.firebase.auth.FirebaseAuthException;
 import io.swapee.swapeebackend.common_library.resource.UserResource;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface UserManagementService {
 
-    void registerUser(String type,Object object, String platform) throws JsonProcessingException;
+    void registerUser(UserResource userResource) throws JsonProcessingException, FirebaseAuthException;
 
     List<UserResource> getAllUsers();
 
