@@ -150,7 +150,7 @@
 				</executions>
 			</plugin>
 		</plugins>
-
+		<finalName>swapee-backend-aws</finalName>
 	</build>
 
 </project>

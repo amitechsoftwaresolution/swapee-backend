@@ -18,4 +18,8 @@ public interface UserManagementService {
     UserResource getUserById();
 
     void deleteUser(String uuid);
+
+    UserResource getUserFromFirebase(String idToken) throws FirebaseAuthException;
+
+    boolean checkUserExist(String email);
 }

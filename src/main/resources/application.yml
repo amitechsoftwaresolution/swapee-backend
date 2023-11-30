@@ -3,14 +3,14 @@ server:
 
 spring:
   datasource:
-    url: ${SWAPEE_SERVICE_DB_URL:jdbc:mysql://localhost:3310/swapee-db}
+    url: ${SWAPEE_SERVICE_DB_URL:jdbc:mysql://database-1.c6c9y6lda5qb.ap-southeast-1.rds.amazonaws.com:3306/swapeedb}
     username: ${SWAPEE_SERVICE_DB_USERNAME:root}
-    password: ${SWAPEE_SERVICE_DB_PASSWORD:root}
+    password: ${SWAPEE_SERVICE_DB_PASSWORD:swapee-db-2022}
     maximumPoolSize: ${SWAPEE_SERVICE_DB_MAX_POOL:5}
   jpa:
     database-platform: ${SWAPEE_SERVICE_DB_PLATFORM:org.hibernate.dialect.MySQL8Dialect}
     hibernate:
-      ddl-auto: ${SWAPEE_SERVICE_DB_DDL_AUTO:create} # change to update
+      ddl-auto: ${SWAPEE_SERVICE_DB_DDL_AUTO:update} # change to update
     show-sql: ${SWAPEE_SERVICE_DB_SHOW_SQL:false}
     properties:
       hibernate:

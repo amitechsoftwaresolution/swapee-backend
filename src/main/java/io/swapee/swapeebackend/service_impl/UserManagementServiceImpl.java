@@ -1,6 +1,5 @@
 package io.swapee.swapeebackend.service_impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -16,7 +15,6 @@ import io.swapee.swapeebackend.model.User;
 import io.swapee.swapeebackend.model.VendorDetails;
 import io.swapee.swapeebackend.repository.UserRepository;
 import io.swapee.swapeebackend.service.UserManagementService;
-import org.hibernate.id.UUIDGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,9 +54,8 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     public void registerUser(UserResource userResource) throws FirebaseAuthException {
-        switch (userResource.getType()) {
+        switch (userResource.getIdToken() != null ? GOOGLE_USER : NORMAL_USER) {
             case GOOGLE_USER:
-                handleGoogleUserRegistration(userResource);
                 userResource = getUserFromFirebase(userResource.getIdToken());
                 break;
             case NORMAL_USER:
@@ -80,12 +77,6 @@ public class UserManagementServiceImpl implements UserManagementService {
         setCustomClaims(userRecord, userResource.getRole());
     }
 
-    private void handleGoogleUserRegistration(UserResource userResource) throws FirebaseAuthException {
-        FirebaseToken token = firebaseAuth.verifyIdToken(userResource.getIdToken());
-        UserRecord userRecord = firebaseAuth.getUser(token.getUid());
-
-        setCustomClaims(userRecord, userResource.getRole());
-    }
     private void setCustomClaims(UserRecord userRecord, String role) throws FirebaseAuthException {
         // Set custom claims for the user
         Map<String, Object> claims = new HashMap<>();
@@ -93,13 +84,22 @@ public class UserManagementServiceImpl implements UserManagementService {
         firebaseAuth.setCustomUserClaims(userRecord.getUid(), claims);
     }
 
-    private UserResource getUserFromFirebase(String idToken) throws FirebaseAuthException {
-        FirebaseToken token = firebaseAuth.verifyIdToken(idToken);
-        UserRecord userRecord = firebaseAuth.getUser(token.getUid());
+    public UserResource getUserFromFirebase(String idToken)  {
+        FirebaseToken token = null;
+        try {
+            token = firebaseAuth.verifyIdToken(idToken);
+        } catch (FirebaseAuthException e) {
+            throw new RuntimeException(e);
+        }
+        UserRecord userRecord = null;
+        try {
+            userRecord = firebaseAuth.getUser(token.getUid());
+        } catch (FirebaseAuthException e) {
+            throw new RuntimeException(e);
+        }
         UserResource userResource = new UserResource();
         userResource.setEmail(userRecord.getEmail());
         userResource.setName(userRecord.getDisplayName());
-        userResource.setRole((String) userRecord.getCustomClaims().get("role"));
         return userResource;
     }
 
@@ -130,7 +130,7 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     public void saveUser(UserResource userResource){
-        if(userRepository.existsByEmail(userResource.getEmail()))
+        if(checkUserExist(userResource.getEmail()))
             throw new ConflictException("User already exists");
 
         User user = new User();
@@ -141,6 +141,8 @@ public class UserManagementServiceImpl implements UserManagementService {
         userRepository.save(user);
     }
 
-
+    public boolean checkUserExist(String email){
+        return userRepository.existsByEmail(email);
+    }
 
 }

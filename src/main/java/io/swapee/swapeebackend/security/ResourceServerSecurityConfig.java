@@ -23,7 +23,7 @@ public class ResourceServerSecurityConfig {
                 .antMatchers( "/api/v1/user/**").permitAll()
                 .antMatchers("/*", "/api/open").permitAll()
                 .antMatchers("/api/v1/user-management/**").hasAuthority("ADMIN")
-                .antMatchers("/api/v1/user-management/**").hasAuthority("STAFF")
+                .antMatchers(HttpMethod.GET,"/api/v1/user-management/**").hasAuthority("STAFF")
                 .antMatchers("/api/vendor").hasAuthority("VENDOR")
                 .antMatchers(HttpMethod.POST, "/api/v1/user/dashboard/registration").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
