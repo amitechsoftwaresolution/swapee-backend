@@ -31,6 +31,7 @@ public class AuthController extends AbstractController {
     @PostMapping("/google/user/exist")
     public Boolean checkGoogleUserExist(@RequestBody String idToken) throws FirebaseAuthException, JsonProcessingException {
         UserResource userResource = userManagementService.getUserFromFirebase(idToken);
+        userResource.setIdToken(idToken);
         if(!userManagementService.checkUserExist(userResource.getEmail())){
             userManagementService.registerUser(userResource);
             return true;

@@ -19,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -27,13 +28,19 @@ import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
+
 /**
  * @author Minoltan Issack on 8/14/2022
  */
 
 @Service
 public class UserManagementServiceImpl implements UserManagementService {
-    private Logger logger = Logger.getLogger(UserManagementServiceImpl.class.getName());
+    private final Logger logger = Logger.getLogger(UserManagementServiceImpl.class.getName());
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
@@ -46,6 +53,11 @@ public class UserManagementServiceImpl implements UserManagementService {
     private static final String GOOGLE_USER = "GOOGLE_USER";
     private static final String NORMAL_USER = "NORMAL_USER";
 
+    private static final String ENCRYPTION_ALGORITHM = "AES";
+    private static final String ENCRYPTION_KEY = "swapeeEncryption";
+    private static final String IV = "aesEncryptionKey";
+
+
 
     public UserManagementServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -55,12 +67,17 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     public void registerUser(UserResource userResource) throws FirebaseAuthException {
         switch (userResource.getIdToken() != null ? GOOGLE_USER : NORMAL_USER) {
-            case GOOGLE_USER:
+            case GOOGLE_USER: {
                 userResource = getUserFromFirebase(userResource.getIdToken());
+                userResource.setType(GOOGLE_USER);
+                userResource.setRole(VIEWER);
                 break;
-            case NORMAL_USER:
+            }
+            case NORMAL_USER: {
+                userResource.setType(NORMAL_USER);
                 handleNormalUserRegistration(userResource);
                 break;
+            }
             default:
                 throw new NotFoundException("Type not found");
         }
@@ -69,12 +86,14 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     private void handleNormalUserRegistration(UserResource userResource) throws FirebaseAuthException {
+        String decryptedPassword = decryptPassword(userResource.getPassword());
         UserRecord.CreateRequest createRequest = new UserRecord.CreateRequest()
                 .setEmail(userResource.getEmail())
-                .setPassword(userResource.getPassword());
-        UserRecord userRecord = firebaseAuth.createUser(createRequest);
-
-        setCustomClaims(userRecord, userResource.getRole());
+                .setPassword(decryptedPassword);
+        if (userResource.getRole() != null) {
+            UserRecord userRecord = firebaseAuth.createUser(createRequest);
+            setCustomClaims(userRecord, userResource.getRole());
+        }
     }
 
     private void setCustomClaims(UserRecord userRecord, String role) throws FirebaseAuthException {
@@ -85,13 +104,13 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     public UserResource getUserFromFirebase(String idToken)  {
-        FirebaseToken token = null;
+        FirebaseToken token;
         try {
             token = firebaseAuth.verifyIdToken(idToken);
         } catch (FirebaseAuthException e) {
             throw new RuntimeException(e);
         }
-        UserRecord userRecord = null;
+        UserRecord userRecord;
         try {
             userRecord = firebaseAuth.getUser(token.getUid());
         } catch (FirebaseAuthException e) {
@@ -143,6 +162,22 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     public boolean checkUserExist(String email){
         return userRepository.existsByEmail(email);
+    }
+
+    public String decryptPassword(String encryptedPassword) {
+        try {
+            byte[] encryptedBytes = Base64.getDecoder().decode(encryptedPassword);
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            SecretKey secretKey = new SecretKeySpec(ENCRYPTION_KEY.getBytes(StandardCharsets.UTF_8), ENCRYPTION_ALGORITHM);
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(IV.getBytes(StandardCharsets.UTF_8));
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
+            byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+            return new String(decryptedBytes, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            System.err.println("Decryption failed: " + e.getMessage());
+            logger.info("Decryption failed: " + e.getMessage());
+            return null;
+        }
     }
 
 }
