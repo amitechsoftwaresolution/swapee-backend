@@ -22,15 +22,16 @@ public class ResourceServerSecurityConfig {
                 .authorizeRequests()
                 .antMatchers( "/api/v1/user/**").permitAll()
                 .antMatchers("/*", "/api/open").permitAll()
-                .antMatchers("/api/v1/user-management/**").hasAuthority("ADMIN")
+                .antMatchers("/api/v1/advertisement/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/user-management/**").hasAuthority("STAFF")
+                .antMatchers("/api/v1/user-management/**").hasAuthority("ADMIN")
                 .antMatchers("/api/vendor").hasAuthority("VENDOR")
                 .antMatchers(HttpMethod.POST, "/api/v1/user/dashboard/registration").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().disable()
                 .csrf().disable()
-                .addFilterBefore(new FirebaseTokenFilter(), UsernamePasswordAuthenticationFilter.class);;
+                .addFilterBefore(new FirebaseTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
