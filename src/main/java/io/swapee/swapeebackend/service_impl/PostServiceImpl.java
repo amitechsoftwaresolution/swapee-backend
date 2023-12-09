@@ -1,5 +1,8 @@
 package io.swapee.swapeebackend.service_impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swapee.swapeebackend.common_library.resource.CarouselInterval;
 import io.swapee.swapeebackend.common_library.resource.PostResponseResource;
 import io.swapee.swapeebackend.common_library.resource.PremiumContentResponse;
@@ -10,6 +13,7 @@ import io.swapee.swapeebackend.repository.PostRepository;
 import io.swapee.swapeebackend.service.PostService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -72,8 +76,12 @@ public class PostServiceImpl implements PostService {
             postResponseResource.setTitle(post.getTitle());
             postResponseResource.setDescription(post.getDescription());
             postResponseResource.setCategoryType(categoryRepository.findNameById(post.getCategoryId()));
-            String[] imageLinks = post.getImageArray().split(",");
-            postResponseResource.setImageLinks(Arrays.asList(imageLinks));
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                postResponseResource.setImageLinks(objectMapper.readValue(post.getImageArray(), new TypeReference<List<String>>() {}));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
             postResponseResource.setPostDate(post.getPostDate());
             postResponseResourceList.add(postResponseResource);
         }
