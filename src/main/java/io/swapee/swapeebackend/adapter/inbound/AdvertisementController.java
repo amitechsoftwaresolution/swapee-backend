@@ -17,8 +17,8 @@ public class AdvertisementController extends AbstractController {
         this.advertisementService = advertisementService;
     }
 
-    @GetMapping
-    public ResponseEntity<Object> getAllAdvertisement(){
-        return sendSuccessResponse(advertisementService.getAllActiveAdvertisement());
+    @GetMapping("/carousel")
+    public ResponseEntity<Object> getAllCarouselAdvertisement(){
+        return sendSuccessResponse(advertisementService.getAllActiveCarouselAdvertisement());
     }
 }

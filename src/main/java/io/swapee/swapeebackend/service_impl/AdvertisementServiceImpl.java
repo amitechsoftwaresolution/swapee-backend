@@ -1,6 +1,6 @@
 package io.swapee.swapeebackend.service_impl;
 
-import io.swapee.swapeebackend.common_library.resource.AdvertisementResponseResource;
+import io.swapee.swapeebackend.common_library.resource.AdvertisementCarouselResponseResource;
 import io.swapee.swapeebackend.common_library.resource.CarouselInterval;
 import io.swapee.swapeebackend.model.Advertisement;
 import io.swapee.swapeebackend.repository.AdvertisementRepository;
@@ -27,7 +27,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public AdvertisementResponseResource getAllActiveAdvertisement() {
+    public AdvertisementCarouselResponseResource getAllActiveCarouselAdvertisement() {
         logger.info("Get all advertisement");
         List<Advertisement> advertisementList = advertisementRepository.getAllActiveAdvertisement();
         List<String> imageList = getImageListFromAdvertisements(advertisementList);
@@ -36,7 +36,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
             String maxTime = configRepository.findByKey("AD_MAX_TIME");
             String minTime = configRepository.findByKey("AD_MIN_TIME");
             CarouselInterval carouselInterval = new CarouselInterval(Integer.parseInt(minTime), Integer.parseInt(maxTime));
-            return new AdvertisementResponseResource(carouselInterval, imageList);
+            return new AdvertisementCarouselResponseResource(carouselInterval, imageList);
         }
         return null;
     }

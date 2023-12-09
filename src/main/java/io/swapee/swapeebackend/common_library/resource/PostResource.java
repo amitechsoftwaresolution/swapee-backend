@@ -1,21 +1,16 @@
-package io.swapee.swapeebackend.model;
+package io.swapee.swapeebackend.common_library.resource;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class Post {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class PostResource {
     private String title;
     private String description;
     private Long categoryId;

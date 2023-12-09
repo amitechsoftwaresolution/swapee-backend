@@ -1,8 +1,8 @@
 package io.swapee.swapeebackend.service;
 
-import io.swapee.swapeebackend.common_library.resource.AdvertisementResponseResource;
+import io.swapee.swapeebackend.common_library.resource.AdvertisementCarouselResponseResource;
 
 public interface AdvertisementService {
 
-    AdvertisementResponseResource getAllActiveAdvertisement();
+    AdvertisementCarouselResponseResource getAllActiveCarouselAdvertisement();
 }

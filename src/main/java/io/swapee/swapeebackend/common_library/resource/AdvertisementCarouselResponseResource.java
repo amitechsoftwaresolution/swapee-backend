@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdvertisementResponseResource {
+public class AdvertisementCarouselResponseResource {
     private CarouselInterval carousel_interval;
     private List<String> image_list;
 }
