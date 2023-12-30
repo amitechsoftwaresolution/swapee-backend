@@ -1,5 +1,5 @@
 server:
-  port: ${SWAPEE_SERVICE_PORT:8088}
+  port: ${SWAPEE_SERVICE_PORT:8080}
 
 spring:
   datasource:
