@@ -13,8 +13,6 @@ import io.swapee.swapeebackend.repository.PostRepository;
 import io.swapee.swapeebackend.service.PostService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -67,6 +65,13 @@ public class PostServiceImpl implements PostService {
         PremiumContentResponse.BronzeContent bronzeContent = new PremiumContentResponse.BronzeContent(bronzeCarouselInterval, getPostResponseResource(bronzeList));
 
         return new PremiumContentResponse(platinumContent, goldContent, bronzeContent);
+    }
+
+    @Override
+    public List<PostResponseResource> searchPost(String keyword) {
+        logger.info("Search post");
+        List<Post> postList = postRepository.findAllByTitleContaining(keyword);
+        return getPostResponseResource(postList);
     }
 
     private List<PostResponseResource> getPostResponseResource(List<Post> postList) {

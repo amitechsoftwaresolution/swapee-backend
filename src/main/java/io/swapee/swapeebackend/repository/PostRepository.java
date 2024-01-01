@@ -14,4 +14,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "SELECT t.id FROM type t WHERE t.name = ?1)", nativeQuery = true)
     List<Post> findAllActivePostsByType(String type);
 
+    List<Post> findAllByTitleContaining(String keyword);
 }

@@ -8,4 +8,6 @@ import java.util.List;
 public interface PostService {
     List<PostResponseResource> getAllPosts();
     PremiumContentResponse getPremiumContent();
+
+    List<PostResponseResource> searchPost(String keyword);
 }
